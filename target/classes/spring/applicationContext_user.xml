@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+	<!-- 注意: 在 IOC 容器中配置 Struts2 的 Action 时, 需要配置 scope 属性, 其值必须为 prototype -->
+	<!-- 注册 -->	
+	<bean id="registerService" class="com.cultural.serviceimp.RegisterService">
+		<property name="registerDao" ref="registerDao"></property>
+	</bean>
+	<bean id="registerAction" class="com.cultural.action.RegisterAction"
+		scope="prototype">
+		<property name="registerService" ref="registerService"></property>
+		<property name="loginService" ref="loginService"></property>
+		<property name="authorityService" ref="authorityService"></property>
+	</bean>
+	<bean id="registerDao" class="com.cultural.daoimp.RegisterDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	<!--登陆 -->
+	<bean id="loginService" class="com.cultural.serviceimp.LoginService">
+		<property name="loginDao" ref="loginDao"></property>
+	</bean>
+	<bean id="loginAction" class="com.cultural.action.LoginAction" scope="prototype">
+		<property name="loginService" ref="loginService"></property>
+	</bean>
+	<bean id="loginDao" class="com.cultural.daoimp.LoginDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="createImageAction" class="com.cultural.action.CreateImageAction"></bean>
+	<!-- 完成注册 -->
+	<bean id="completeRegService" class="com.cultural.serviceimp.CompleteRegService">
+		<property name="completeRegDao" ref="completeRegDao"></property>
+	</bean>	
+	<bean id="completeRegAction" class="com.cultural.action.CompleteRegAction" scope="prototype">
+		<property name="completeRegService" ref="completeRegService"></property>
+	</bean>
+	<bean id="completeRegDao" class="com.cultural.daoimp.CompleteRegDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 注销 -->
+	<bean id="loginOutAction" class="com.cultural.action.LoginOutAction">
+	</bean>
+	<!-- 完成注册 -->
+	<!-- 权限控制 -->
+	<bean id="authorityService" class="com.cultural.serviceimp.AuthorityService">
+		<property name="authorityDao" ref="authorityDao"></property>
+	</bean>
+	
+	<bean id="authorityDao" class="com.cultural.daoimp.AuthorityDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="adminLoginAction" class="com.cultural.action.AdminLoginAction" scope="prototype">
+		<property name="loginService" ref="loginService"></property>
+		<property name="authorityService" ref="authorityService"></property>
+	</bean>
+	
+	
+	<bean id="manageUserService" class="com.cultural.serviceimp.ManageUserService">
+		<property name="manageUserDao" ref="manageUserDao"></property>
+	</bean>
+	
+	<bean id="manageUserDao" class="com.cultural.daoimp.ManageUserDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="manageUserAction" class="com.cultural.action.ManageUserAction" scope="prototype">
+		<property name="manageUserService" ref="manageUserService"></property>
+		<property name="authorityService" ref="authorityService"></property>
+	</bean>
+</beans>
+
