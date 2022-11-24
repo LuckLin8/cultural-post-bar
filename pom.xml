@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.1.7.Final</version>
+            <version>5.3.20.Final</version>
         </dependency>
         <!-- spring3可选的依赖注入，不可缺少 -->
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
